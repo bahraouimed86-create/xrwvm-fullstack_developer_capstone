@@ -134,4 +134,4 @@ STATICFILES_DIRS = [
 ]
 
 # Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.model
+DEFAULT_AUTO_FIELD = 'django.db.model'
