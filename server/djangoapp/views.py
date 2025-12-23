@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
 from django.http import JsonResponse
@@ -47,8 +46,11 @@ def registration(request):
 
     if not username_exist:
         user = User.objects.create_user(
-            username=username, first_name=first_name,
-            last_name=last_name, password=password, email=email
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            password=password,
+            email=email
         )
         login(request, user)
         return JsonResponse({"userName": username, "status": "Authenticated"})
@@ -67,8 +69,7 @@ def get_dealer_details(request, dealer_id):
         endpoint = "/fetchDealer/" + str(dealer_id)
         dealership = get_request(endpoint)
         return JsonResponse({"status": 200, "dealer": dealership})
-    else:
-        return JsonResponse({"status": 400, "message": "Bad Request"})
+    return JsonResponse({"status": 400, "message": "Bad Request"})
 
 
 def get_dealer_reviews(request, dealer_id):
@@ -79,8 +80,7 @@ def get_dealer_reviews(request, dealer_id):
             response = analyze_review_sentiments(review_detail['review'])
             review_detail['sentiment'] = response.get('sentiment', 'neutral')
         return JsonResponse({"status": 200, "reviews": reviews})
-    else:
-        return JsonResponse({"status": 400, "message": "Bad Request"})
+    return JsonResponse({"status": 400, "message": "Bad Request"})
 
 
 def add_review(request):
@@ -91,8 +91,7 @@ def add_review(request):
             return JsonResponse({"status": 200})
         except Exception:
             return JsonResponse({"status": 401, "message": "Error in posting review"})
-    else:
-        return JsonResponse({"status": 403, "message": "Unauthorized"})
+    return JsonResponse({"status": 403, "message": "Unauthorized"})
 
 
 def get_cars(request):
